@@ -28,7 +28,7 @@ As of 2020, we have chosen to move this course from Python to the new [Julia pro
 10. Heuristics and metaheuristics
 
 ## Using this repo
-
+build
 If you have *Julia* and *IJulia*-notebooks installed, clone the repo (check the section on GitHub below if you don't know what this means) and work locally in the notebooks, this is recommended as it is the only way to save your work. Otherwise, click on the badge below to open a Binder session or check the *installation instructions* below to install *Julia* and *IJulia*-notebooks.
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/MichielStock/STMO/master)
@@ -38,7 +38,7 @@ While using Binder is convenient in the short term, it will take a while to star
 All notebooks and pdf notes are generated from the `.jmd` files in all the chapter folders. These can be build by running the `build.jl` script in Julia:
 
 ```julia
-include("build.jl")
+include("build.jl"
 ```
 
 Beware that building the course will take a while.
