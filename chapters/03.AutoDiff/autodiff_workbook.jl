@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.11.14
+# v0.12.4
 
 using Markdown
 using InteractiveUtils
@@ -104,6 +104,9 @@ Disadvantages:
 # ╔═╡ 5db7350a-f2b3-11ea-293d-ffc572e0dbe8
 @vars x  # define variable + the @ turns it into a macro 
 
+# ╔═╡ bbe02ec4-120d-11eb-39fb-8545d56de2ad
+f(x)
+
 # ╔═╡ 64b28e4a-f2b3-11ea-0fc0-7d37b4794686
 df = diff(f(x), x)
 
@@ -149,13 +152,13 @@ diff_fordiff(f, x; h=1e-10) = (f(x+h) - f(x)) / h;
 diff_centrdiff(f, x; h=1e-10) = (f(x+h)-f(x-h))/ 2h;
 
 # ╔═╡ f54ee2b2-f2b3-11ea-24e8-f556ab9e3b85
-diff_complstep(f, x; h=1e-10) = Im(f(x+ih)) / h;
+diff_complstep(f, x; h=1e-10) = imag(f(x+im*h)) / h;
 
 # ╔═╡ 6d18ecec-07a7-11eb-0a75-b1e47ef58f95
 abs(df(a) - diff_fordiff(f, a; h=1e-20))
 
 # ╔═╡ b23725a0-07a7-11eb-2813-054ec2b6ae5d
-diff_centrdiff(f, a)
+diff_fordiff(f, a)
 
 # ╔═╡ 1055a996-f2b4-11ea-14d2-6116cbbaa6ba
 diff_centrdiff(f, a)
@@ -215,6 +218,9 @@ eps(1.2e10)
 
 # ╔═╡ e584f976-f2b4-11ea-0245-67f6bcc4be0e
 eps(1.2e-10)
+
+# ╔═╡ 4eff1680-1210-11eb-0afb-99f8fcc72aad
+2+2
 
 # ╔═╡ eb68674c-f2b4-11ea-0cc2-f792d17a5005
 md"""
@@ -392,7 +398,7 @@ Base.:cos(a::Dual) = Dual(cos(a.v), -sin(a.v)*a.vdot)
 Base.:exp(a::Dual) = Dual(exp(a.v), exp(a.v)*a.vdot)
 
 # ╔═╡ 36a2ca10-f2b8-11ea-0fae-53b552c76115
-Base.:log(a::Dual) = Dual(log(a.v), 1/ a.v *log(a.v)*a.vdot)
+Base.:log(a::Dual) = Dual(log(a.v), 1/ a.v * a.vdot)
 
 # ╔═╡ 4ee45daa-f2b8-11ea-10ea-f929853879b1
 f(Dual(a, 1.0))
@@ -447,6 +453,9 @@ Reverse differentiation:
 - main workhorse for training artificial neural networks.
 - efficient when more inputs than outputs (machine learning: thousands of parameters vs. one loss)
 """
+
+# ╔═╡ 3c39d114-1214-11eb-07a5-81df5b18bd3f
+f(x)
 
 # ╔═╡ a041fbf8-f2b8-11ea-28ba-0772497c649f
 md"Constructing the derivative or gradient can be done by appending `'` to the function."
@@ -581,6 +590,16 @@ distance_to_teapot'([θ₁, θ₂, θ₃])
 
 # ╔═╡ 675b222c-f382-11ea-257a-afcb5a5afdd8
   # use simple gradient descent to move the arm to the teapot
+begin
+	#initial value of 0
+	θ = [0.0, 0.0, 0.0]
+	for i in 1:100
+		θ .-=0.05distance_to_teapot'(θ)
+	end
+end
+
+# ╔═╡ ccd482ae-1215-11eb-3c4b-a342a810ec9f
+θ
 
 # ╔═╡ 881dedd4-f385-11ea-342e-a3700e90ac66
 md"""
@@ -650,6 +669,7 @@ md"""
 # ╟─401df7a4-f2b3-11ea-12a1-e9b46bcfcf1b
 # ╠═5ac4989c-f2b3-11ea-3e8a-a79a4117e48c
 # ╠═5db7350a-f2b3-11ea-293d-ffc572e0dbe8
+# ╠═bbe02ec4-120d-11eb-39fb-8545d56de2ad
 # ╠═64b28e4a-f2b3-11ea-0fc0-7d37b4794686
 # ╠═684ff7f4-f2b3-11ea-14f7-7d3f329ecd79
 # ╟─7a6a18de-f2b3-11ea-1b3d-ef7a2b1b0434
@@ -677,6 +697,7 @@ md"""
 # ╠═de1fd700-f2b4-11ea-36dd-4bfba5ecc134
 # ╠═df14ce72-f2b4-11ea-307b-8fac2889681b
 # ╠═e584f976-f2b4-11ea-0245-67f6bcc4be0e
+# ╠═4eff1680-1210-11eb-0afb-99f8fcc72aad
 # ╟─eb68674c-f2b4-11ea-0cc2-f792d17a5005
 # ╟─f4edad2c-f2b4-11ea-05fb-3d43c18e9d5c
 # ╟─fd9ed266-f2b4-11ea-3c53-3bd2fe30a7f1
@@ -721,6 +742,7 @@ md"""
 # ╟─8a254852-f2b8-11ea-142d-71bb270a5c01
 # ╟─91d0e03e-f2b8-11ea-07e5-db056636ac21
 # ╠═963c4910-f2b8-11ea-12bb-bb42539b1c93
+# ╠═3c39d114-1214-11eb-07a5-81df5b18bd3f
 # ╟─a041fbf8-f2b8-11ea-28ba-0772497c649f
 # ╠═9b5db398-f2b8-11ea-00bc-77de99792925
 # ╟─bdce5964-f2b8-11ea-03d1-57705d295040
@@ -750,6 +772,7 @@ md"""
 # ╠═eaac2514-f8fe-11ea-2229-81f5b59f58fe
 # ╠═fb044216-f381-11ea-2faf-fd53dad74950
 # ╠═675b222c-f382-11ea-257a-afcb5a5afdd8
+# ╠═ccd482ae-1215-11eb-3c4b-a342a810ec9f
 # ╟─881dedd4-f385-11ea-342e-a3700e90ac66
 # ╠═c1e19e26-f385-11ea-17b6-6d2d2e5cb7c0
 # ╟─fe18a0a0-f8fe-11ea-1595-4d95256dabca
